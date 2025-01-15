@@ -1,5 +1,5 @@
 import { useTodo } from "../taskContext/TaskContext";
-import "./App.css";
+import "../App.css";
 import TaskItem from "./TaskItems";
 function TaskContainer() {
   const { tasks, columns, columnOrder } = useTodo();
