@@ -1,186 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smooth Card Scroll</title>
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
     <div class="container">
-      <!-- Add more cards as needed -->
-      <div class="card" id="card1">
-        <div class="hero"></div>
-        <div style="display: flex; gap: 10px">
-          <div class="circle"></div>
-          <div
-            style="
-              display: flex;
-              flex-direction: column;
-              gap: 10px;
-              width: 100%;
-            "
-          >
-            <div class="title"></div>
-            <div class="subtitle"></div>
-          </div>
+        <div class="card" id="card1">
+            <div class="hero">
+                <img src="https://images.pexels.com/photos/29963840/pexels-photo-29963840/free-photo-of-minimalistic-close-up-of-red-tulip-bud.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Nature scene">
+            </div>
+            <div class="content">
+                <div class="circle"></div>
+                <div class="text">
+                    <h2 class="title">Exploring Nature</h2>
+                    <p class="subtitle">A journey through forests</p>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="card" id="card2">
-        <div class="hero"></div>
-        <div style="display: flex; gap: 20px">
-          <div class="circle"></div>
-          <div
-            style="
-              display: flex;
-              flex-direction: column;
-              gap: 10px;
-              width: 100%;
-            "
-          >
-            <div class="title"></div>
-            <div class="subtitle"></div>
-          </div>
+        <div class="card" id="card2">
+            <div class="hero">
+                <img src="https://images.pexels.com/photos/8438186/pexels-photo-8438186.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Urban scene">
+            </div>
+            <div class="content">
+                <div class="circle"></div>
+                <div class="text">
+                    <h2 class="title">Urban Adventures</h2>
+                    <p class="subtitle">Discovering city secrets</p>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="card" id="card3">
-        <div class="hero"></div>
-        <div style="display: flex; gap: 20px">
-          <div class="circle"></div>
-          <div
-            style="
-              display: flex;
-              flex-direction: column;
-              gap: 10px;
-              width: 100%;
-            "
-          >
-            <div class="title"></div>
-            <div class="subtitle"></div>
-          </div>
+        <div class="card" id="card3">
+            <div class="hero">
+                <img src="https://images.pexels.com/photos/2337849/pexels-photo-2337849.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Food scene">
+            </div>
+            <div class="content">
+                <div class="circle"></div>
+                <div class="text">
+                    <h2 class="title">Culinary Delights</h2>
+                    <p class="subtitle">Tasting global flavors</p>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="card" id="card4">
-        <div class="hero"></div>
-        <div style="display: flex; gap: 20px">
-          <div class="circle"></div>
-          <div
-            style="
-              display: flex;
-              flex-direction: column;
-              gap: 10px;
-              width: 100%;
-            "
-          >
-            <div class="title"></div>
-            <div class="subtitle"></div>
-          </div>
+        <div class="card" id="card4">
+            <div class="hero">
+                <img src="https://images.pexels.com/photos/13812380/pexels-photo-13812380.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Historical scene">
+            </div>
+            <div class="content">
+                <div class="circle"></div>
+                <div class="text">
+                    <h2 class="title">Ancient Wonders</h2>
+                    <p class="subtitle">Unveiling historical marvels</p>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="card" id="card5">
-        <div class="hero"></div>
-        <div style="display: flex; gap: 20px">
-          <div class="circle"></div>
-          <div
-            style="
-              display: flex;
-              flex-direction: column;
-              gap: 10px;
-              width: 100%;
-            "
-          >
-            <div class="title"></div>
-            <div class="subtitle"></div>
-          </div>
+        <div class="card" id="card5">
+            <div class="hero">
+                <img src="https://images.pexels.com/photos/30238186/pexels-photo-30238186/free-photo-of-stunning-view-of-a-vibrant-nebula-in-deep-space.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Space scene">
+            </div>
+            <div class="content">
+                <div class="circle"></div>
+                <div class="text">
+                    <h2 class="title">Cosmic Journeys</h2>
+                    <p class="subtitle">Exploring the universe</p>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="card" id="card6">
-        <div class="hero"></div>
-        <div style="display: flex; gap: 20px">
-          <div class="circle"></div>
-          <div
-            style="
-              display: flex;
-              flex-direction: column;
-              gap: 10px;
-              width: 100%;
-            "
-          >
-            <div class="title"></div>
-            <div class="subtitle"></div>
-          </div>
-        </div>
-      </div>
-      <div class="card" id="card7">
-        <div class="hero"></div>
-        <div style="display: flex; gap: 20px">
-          <div class="circle"></div>
-          <div
-            style="
-              display: flex;
-              flex-direction: column;
-              gap: 10px;
-              width: 100%;
-            "
-          >
-            <div class="title"></div>
-            <div class="subtitle"></div>
-          </div>
-        </div>
-      </div>
-      <div class="card" id="card8">
-        <div class="hero"></div>
-        <div style="display: flex; gap: 20px">
-          <div class="circle"></div>
-          <div
-            style="
-              display: flex;
-              flex-direction: column;
-              gap: 10px;
-              width: 100%;
-            "
-          >
-            <div class="title"></div>
-            <div class="subtitle"></div>
-          </div>
-        </div>
-      </div>
-      <div class="card" id="card9">
-        <div class="hero"></div>
-        <div style="display: flex; gap: 20px">
-          <div class="circle"></div>
-          <div
-            style="
-              display: flex;
-              flex-direction: column;
-              gap: 10px;
-              width: 100%;
-            "
-          >
-            <div class="title"></div>
-            <div class="subtitle"></div>
-          </div>
-        </div>
-      </div>
-      <div class="card" id="card10">
-        <div class="hero"></div>
-        <div style="display: flex; gap: 20px">
-          <div class="circle"></div>
-          <div
-            style="
-              display: flex;
-              flex-direction: column;
-              gap: 10px;
-              width: 100%;
-            "
-          >
-            <div class="title"></div>
-            <div class="subtitle"></div>
-          </div>
-        </div>
-      </div>
     </div>
-
+    <button id="scrollUp" aria-label="Scroll up">▲</button>
+    <button id="scrollDown" aria-label="Scroll down">▼</button>
     <script src="script.js"></script>
-  </body>
+</body>
 </html>

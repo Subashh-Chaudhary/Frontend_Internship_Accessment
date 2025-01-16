@@ -1,49 +1,57 @@
-import { createContext, ReactNode, useContext } from "react";
+import React, { useState, createContext, ReactNode, useContext } from "react";
 import { Tasks, Columns, Task } from "./types";
-import { tasks, columns, columnOrder } from "./initialData";
+import { tasks, columns as initialColumns, columnOrder } from "./initialData";
 
 // Define the shape of the context
 interface TaskContextType {
   tasks: Tasks;
   columns: Columns;
   columnOrder: string[];
-  addTodo: (todo: Task) => void;
-  updateTodo: (id: string, todo: Partial<Task>) => void;
-  deleteTodo: (id: string) => void;
+  setColumns: React.Dispatch<React.SetStateAction<Columns>>;
+  addTask: (task: Task) => void;
+  updateTask: (id: string, task: Partial<Task>) => void;
+  deleteTask: (id: string) => void;
 }
 
 // Default value for the context
 const defaultContext: TaskContextType = {
   tasks,
-  columns,
+  columns: initialColumns, // Ensure columns have the correct type
   columnOrder,
-  addTodo: () => {},
-  updateTodo: () => {},
-  deleteTodo: () => {},
+  setColumns: () => {}, // Placeholder function for now
+  addTask: () => {},
+  updateTask: () => {},
+  deleteTask: () => {},
 };
 
 // Create the context with the default value
 const TaskContext = createContext<TaskContextType>(defaultContext);
 
-// Custom hook to use the Todo context
+// Custom hook to use the Task context
 export const useTodo = (): TaskContextType => {
   return useContext(TaskContext);
 };
 
 // Context provider component
 const TaskProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const { tasks, columns, columnOrder } = defaultContext;
+  // Explicitly type `columns` and initialize with `initialColumns`
+  const [columns, setColumns] = useState<Columns>(initialColumns);
+  const [state] = useState({
+    tasks,
+    columnOrder,
+  });
 
-  const addTodo = (todo: Task) => {
-    console.log("Add todo", todo);
+  // Functions for adding, updating, and deleting tasks
+  const addTask = (task: Task) => {
+    console.log("Add task", task);
   };
 
-  const updateTodo = (id: number, todo: Partial<Task>) => {
-    console.log("Update todo", id, todo);
+  const updateTask = (id: string, task: Partial<Task>) => {
+    console.log("Update task", id, task);
   };
 
-  const deleteTodo = (id: number) => {
-    console.log("Delete todo", id);
+  const deleteTask = (id: string) => {
+    console.log("Delete task", id);
   };
 
   return (
@@ -52,17 +60,10 @@ const TaskProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
         tasks,
         columns,
         columnOrder,
-        addTodo: (todo: Task) => {
-          console.log("Add todo", todo);
-        },
-        updateTodo: (id: string, todo: Partial<Task>) => {
-          // Updated `id` to string
-          console.log("Update todo", id, todo);
-        },
-        deleteTodo: (id: string) => {
-          // Updated `id` to string
-          console.log("Delete todo", id);
-        },
+        setColumns,
+        addTask,
+        updateTask,
+        deleteTask,
       }}
     >
       {children}

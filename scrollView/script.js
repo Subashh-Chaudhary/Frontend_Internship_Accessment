@@ -1,7 +1,6 @@
 const cards = document.querySelectorAll(".card");
-let currentIndex = 2; // Start with the middle card in focus
-let isScrolling = false; // Prevent rapid scrolling
-let timeout; // Timeout variable for debouncing
+let currentIndex = 2;
+let isScrolling = false;
 
 function updateCards() {
   cards.forEach((card, index) => {
@@ -17,7 +16,7 @@ function updateCards() {
 }
 
 function scroll(direction) {
-  if (isScrolling) return; // Prevent multiple scrolls at once
+  if (isScrolling) return;
   isScrolling = true;
 
   if (direction === "up" && currentIndex > 0) {
@@ -28,29 +27,53 @@ function scroll(direction) {
 
   updateCards();
 
-  // Allow scrolling again after the animation completes
-  timeout = setTimeout(() => {
+  setTimeout(() => {
     isScrolling = false;
-  }, 1500); // Matches the transition duration (0.6s)
+  }, 600);
 }
 
-// Scroll listener with debouncing
-window.addEventListener("wheel", (e) => {
-  // If timeout exists, clear it to debounce further scrolls
-  clearTimeout(timeout);
+function debounce(func, wait) {
+  let timeout;
+  return function executedFunction(...args) {
+    const later = () => {
+      clearTimeout(timeout);
+      func(...args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+}
 
-  // Handle scroll based on the direction
-  if (e.deltaY > 0) {
-    scroll("down");
-  } else {
-    scroll("up");
+const debouncedScroll = debounce((direction) => scroll(direction), 250);
+
+window.addEventListener(
+  "wheel",
+  (e) => {
+    e.preventDefault();
+    if (e.deltaY > 0) {
+      debouncedScroll("down");
+    } else {
+      debouncedScroll("up");
+    }
+  },
+  { passive: false }
+);
+
+window.addEventListener("keydown", (e) => {
+  if (e.key === "ArrowUp") {
+    e.preventDefault();
+    debouncedScroll("up");
+  } else if (e.key === "ArrowDown") {
+    e.preventDefault();
+    debouncedScroll("down");
   }
-
-  // Set a timeout to prevent triggering too many scrolls in quick succession
-  timeout = setTimeout(() => {
-    // Allow scroll handling again after the animation is complete
-  }, 1500); // Prevents more scroll events until animation completes
 });
 
-// Initialize the card positions
+document
+  .getElementById("scrollUp")
+  .addEventListener("click", () => debouncedScroll("up"));
+document
+  .getElementById("scrollDown")
+  .addEventListener("click", () => debouncedScroll("down"));
+
 updateCards();
