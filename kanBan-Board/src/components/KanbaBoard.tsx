@@ -1,4 +1,4 @@
-import { act, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import PlusIcons from "../icons/PlusIcons";
 import { Id, Column, Task } from "../types";
 import ColumnContainer from "./ColumnContainer";
@@ -18,10 +18,42 @@ import TaskCart from "./TaskCart";
 
 function KanbaBoard() {
   const [columns, setColumns] = useState<Column[]>([]);
+  const [isAdding, setIsAdding] = useState(false);
+  const [newColumnTitle, setNewColumnTitle] = useState("");
   const [activeColumn, setActiveColumn] = useState<Column | null>(null);
   const [activeTask, setActiveTask] = useState<Task | null>(null);
   const columnsId = useMemo(() => columns.map((col) => col.id), [columns]);
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [activeTaskInput, setActiveTaskInput] = useState<Id | null>(null);
+  const [newTaskContent, setNewTaskContent] = useState("");
+
+  const handleAddColumn = () => {
+    setIsAdding(true); // Show the input field
+  };
+
+  const handleSaveColumn = () => {
+    if (newColumnTitle.trim() === "") return; // Prevent empty column titles
+    const columnToAdd: Column = {
+      id: generateId(),
+      title: newColumnTitle,
+    };
+
+    setColumns([...columns, columnToAdd]);
+    setNewColumnTitle(""); // Clear input
+    setIsAdding(false); // Hide the input field
+  };
+
+  const handleCancel = () => {
+    setNewColumnTitle(""); // Clear input
+    setIsAdding(false); // Hide the input field
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSaveColumn(); // Save on Enter
+    }
+  };
+
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
@@ -29,21 +61,44 @@ function KanbaBoard() {
       },
     })
   );
-  const createNewColumn = () => {
-    const columnToAdd: Column = {
-      id: generateId(),
-      title: `Task ${columns.length + 1}`,
-    };
+  // const createNewColumn = () => {
+  //   const columnToAdd: Column = {
+  //     id: generateId(),
+  //     title: `Task ${columns.length + 1}`,
+  //   };
 
-    setColumns([...columns, columnToAdd]);
-  };
+  //   setColumns([...columns, columnToAdd]);
+  // };
 
   const deleteColumn = (id: Id) => {
     const filteredColumns = columns.filter((column) => column.id !== id);
     setColumns(filteredColumns);
 
-    const newTasks = tasks.filter(t => t.columnId !== id);
-    setTasks(newTasks)
+    const newTasks = tasks.filter((t) => t.columnId !== id);
+    setTasks(newTasks);
+  };
+
+  const createTask = (columnId: Id) => {
+    if (newTaskContent.trim() === "") return; // Prevent empty task content
+    const newTask: Task = {
+      id: generateId(),
+      columnId,
+      content: newTaskContent,
+    };
+    setTasks([...tasks, newTask]);
+    setNewTaskContent(""); // Clear input
+    setActiveTaskInput(null); // Hide input field
+  };
+
+  const handleAddTaskClick = (columnId: Id) => {
+    setActiveTaskInput(columnId); // Show input field for the clicked column
+    setNewTaskContent(""); // Reset task input
+  };
+
+  const handleKeyPresss = (e: React.KeyboardEvent<HTMLInputElement>, columnId: Id) => {
+    if (e.key === "Enter") {
+      createTask(columnId); // Create task on Enter key press
+    }
   };
 
   const deleteTask = (id: Id) => {
@@ -51,14 +106,14 @@ function KanbaBoard() {
     setTasks(fiteredTask);
   };
 
-  const createTask = (columnId: Id) => {
-    const newTask: Task = {
-      id: generateId(),
-      columnId,
-      content: `Task ${tasks.length + 1}`,
-    };
-    setTasks([...tasks, newTask]);
-  };
+  // const createTask = (columnId: Id) => {
+  //   const newTask: Task = {
+  //     id: generateId(),
+  //     columnId,
+  //     content: `Task ${tasks.length + 1}`,
+  //   };
+  //   setTasks([...tasks, newTask]);
+  // };
 
   const generateId = () => {
     return Math.floor(Math.random() * 10001);
@@ -87,12 +142,8 @@ function KanbaBoard() {
     if (activeId === overId) return;
 
     setColumns((columns) => {
-      const activeColumnIndex = columns.findIndex(
-        (col) => col.id === activeId
-      );
-      const overColumnIndex = columns.findIndex(
-        (col) => col.id === overId
-      );
+      const activeColumnIndex = columns.findIndex((col) => col.id === activeId);
+      const overColumnIndex = columns.findIndex((col) => col.id === overId);
 
       return arrayMove(columns, activeColumnIndex, overColumnIndex);
     });
@@ -109,10 +160,10 @@ function KanbaBoard() {
     const isActiveTask = active.data.current?.type === "Task";
     const isOverTask = over.data.current?.type === "Task";
 
-    if(!isActiveTask) return;
+    if (!isActiveTask) return;
 
     if (isActiveTask && isOverTask) {
-      setTasks(tasks => {
+      setTasks((tasks) => {
         const activeIndex = tasks.findIndex((t) => t.id === activeId);
         const overIndex = tasks.findIndex((t) => t.id === overId);
 
@@ -123,7 +174,7 @@ function KanbaBoard() {
     }
 
     const isOverColumn = over.data.current?.type === "Column";
-    if(isActiveTask && isOverColumn){
+    if (isActiveTask && isOverColumn) {
       setTasks((tasks) => {
         const activeIndex = tasks.findIndex((t) => t.id === activeId);
 
@@ -141,7 +192,7 @@ function KanbaBoard() {
         onDragEnd={onDragEnd}
         onDragOver={onDragOver}
       >
-        <div className="m-auto flex gap-4 ">
+        <div className="w-full m-auto flex gap-4 flex-wrap justify-center items-center">
           <div className="flex gap-4">
             <SortableContext items={columnsId}>
               {columns.map((column) => (
@@ -149,6 +200,12 @@ function KanbaBoard() {
                   key={column.id}
                   column={column}
                   deleteColumn={deleteColumn}
+                  input={activeTaskInput}
+                  newTaskContent={newTaskContent}
+                  setNewTaskContent={setNewTaskContent}
+                  setActiveTaskInput={setActiveTaskInput}
+                  handleKeyPresss={handleKeyPresss}
+                  handleAddTaskClick={handleAddTaskClick}
                   createTask={createTask}
                   tasks={tasks.filter((task) => task.columnId === column.id)}
                   deleteTask={deleteTask}
@@ -156,15 +213,35 @@ function KanbaBoard() {
               ))}
             </SortableContext>
           </div>
-          <button
-            onClick={() => {
-              createNewColumn();
-            }}
-            className="h-[60px] w-[350px] min-w-[350px] cursor-pointer rounded-lg bg-mainBackgroundColor border-2 border-columnBackgroundColor p-4 ring-rose-500 hover:ring-1 flex items-center gap-2"
-          >
-            <PlusIcons />
-            Add Column
-          </button>
+          {isAdding && (
+            <div className="new-column-input">
+              <input
+                type="text"
+                value={newColumnTitle}
+                onChange={(e) => setNewColumnTitle(e.target.value)}
+                onKeyPress={handleKeyPress} // Listen for Enter key
+                placeholder="Enter column title"
+                className="input-field"
+              />
+              <button onClick={handleSaveColumn} className="save-button">
+                Save
+              </button>
+              <button onClick={handleCancel} className="cancel-button">
+                Cancel
+              </button>
+            </div>
+          )}
+          {!isAdding && (
+            <button
+              onClick={() => {
+                handleAddColumn();
+              }}
+              className="h-[60px] w-[350px] min-w-[350px] cursor-pointer rounded-lg bg-mainBackgroundColor border-2 border-columnBackgroundColor p-4 ring-rose-500 hover:ring-1 flex items-center gap-2"
+            >
+              <PlusIcons />
+              Add Column
+            </button>
+          )}
         </div>
         {createPortal(
           <DragOverlay>
@@ -172,6 +249,12 @@ function KanbaBoard() {
               <ColumnContainer
                 column={activeColumn}
                 deleteColumn={deleteColumn}
+                input={activeTaskInput}
+                newTaskContent={newTaskContent}
+                setNewTaskContent={setNewTaskContent}
+                setActiveTaskInput={setActiveTaskInput}
+                handleKeyPresss={handleKeyPresss}
+                handleAddTaskClick={handleAddTaskClick}
                 createTask={createTask}
                 tasks={tasks.filter(
                   (task) => task.columnId === activeColumn.id

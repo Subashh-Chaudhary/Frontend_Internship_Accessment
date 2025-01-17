@@ -40,7 +40,7 @@ function TaskCart({task, deleteTask} : Props) {
                 style={style}
                 {...attributes}
                 {...listeners}
-                className="relative bg-mainBackgroundColor p-2.5 h-[100px] min-h-[100px] items-center flex text-left rounded-xl cursor-grab opacity-30 border-2 border-rose-500" />
+                className="relative bg-mainBackgroundColor p-2.5 h-[50px] min-h-[50px] items-center flex text-left rounded-md cursor-grab opacity-30 border-2 border-rose-500" />
             );
         }
 
@@ -50,7 +50,7 @@ function TaskCart({task, deleteTask} : Props) {
     style={style}
     {...attributes}
     {...listeners}
-    className="relative bg-mainBackgroundColor p-2.5 h-[100px] min-h-[100px] items-center flex text-left rounded-xl hover:ring-2 hover:ring-inset hover:ring-rose-500 cursor-grab"
+    className="relative bg-mainBackgroundColor px-4 py-3 items-center flex text-left rounded-md hover:ring-2 hover:ring-inset hover:ring-rose-500 cursor-grab"
     onMouseEnter={() => {
         setMouseIsOver(true)
     }}
@@ -62,7 +62,7 @@ function TaskCart({task, deleteTask} : Props) {
         {task.content}
         {mouseIsOver && 
         <button
-        className="stroke-white absolute right-4 top-1/2 -translate-y-1/2 bg-columnBackgroundColor p-2 rounded opacity-60 hover:opacity-100"
+        className="stroke-white absolute right-3 top-1/2 -translate-y-1/2 bg-columnBackgroundColor p-1 rounded opacity-60 hover:opacity-100"
         onClick={() => {
             deleteTask(task.id);
         }}>

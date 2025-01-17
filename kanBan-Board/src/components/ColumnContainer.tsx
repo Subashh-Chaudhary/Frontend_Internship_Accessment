@@ -7,15 +7,36 @@ import TaskCart from "./TaskCart";
 import { useMemo } from "react";
 
 interface Props {
-  column: Column;
-  deleteColumn: (id: Id) => void;
-  createTask: (id: Id) => void;
-  tasks: Task[];
-  deleteTask: (id: Id) => void;
+  column: Column; 
+  deleteColumn: (id: Id) => void; 
+  input: Id | null; 
+  newTaskContent: string;
+  setNewTaskContent: (content: string) => void;
+  setActiveTaskInput: (columnId: Id | null) => void; 
+  handleKeyPresss: (
+    e: React.KeyboardEvent<HTMLInputElement>,
+    columnId: Id
+  ) => void; 
+  handleAddTaskClick: (columnId: Id) => void;
+  createTask: (columnId: Id) => void; // Function to create a new task
+  tasks: Task[]; // List of tasks in the column
+  deleteTask: (id: Id) => void; // Function to delete a task
 }
 
 function ColumnContainer(props: Props) {
-  const { column, deleteColumn, createTask, tasks, deleteTask } = props;
+  const {
+    column,
+    deleteColumn,
+    input,
+    newTaskContent,
+    setNewTaskContent,
+    setActiveTaskInput,
+    handleKeyPresss,
+    handleAddTaskClick,
+    createTask,
+    tasks,
+    deleteTask,
+  } = props;
 
   const tasksIds = useMemo(() => {
     return tasks.map(task => task.id)
@@ -46,7 +67,7 @@ function ColumnContainer(props: Props) {
       <div
         ref={setNodeRef}
         style={style}
-        className="bg-columnBackgroundColor w-[350px] h-[500px] max-h-[500px] rounded-md flex flex-col opacity-50 border-2 border-rose-500"
+        className="bg-columnBackgroundColor w-[300px] h-[400px] max-h-[500px] rounded-md flex flex-col opacity-50 border-2 border-rose-500"
       ></div>
     );
   }
@@ -54,7 +75,7 @@ function ColumnContainer(props: Props) {
     <div
       ref={setNodeRef}
       style={style}
-      className="bg-columnBackgroundColor w-[350px] h-[500px] max-h-[500px] rounded-md flex flex-col"
+      className="bg-columnBackgroundColor w-[300px] h-[400px] max-h-[400px] rounded-md flex flex-col"
     >
       <div
         {...attributes}
@@ -84,14 +105,40 @@ function ColumnContainer(props: Props) {
           ))}
         </SortableContext>
       </div>
-      <button
-        className="flex gap-2 items-center border-columnBackgroundColor border-2 rounded-md p-4 border-x-columnBackgroundColor hover:bg-mainBackgroundColor hover:text-rose-500 active:bg-black"
-        onClick={() => {
-          createTask(column.id);
-        }}
-      >
-        <PlusIcons /> Add task
-      </button>
+
+      {input === column.id ? (
+        <div className="task-input-container">
+          <input
+            type="text"
+            value={newTaskContent}
+            onChange={(e) => setNewTaskContent(e.target.value)}
+            onKeyPress={(e) => handleKeyPresss(e, column.id)}
+            placeholder="Enter task name"
+            className="task-input"
+          />
+          <button
+            onClick={() => createTask(column.id)}
+            className="save-task-button"
+          >
+            Save
+          </button>
+          <button
+            onClick={() => setActiveTaskInput(null)}
+            className="cancel-task-button"
+          >
+            Cancel
+          </button>
+        </div>
+      ) : (
+        <button
+          className="flex gap-2 items-center border-columnBackgroundColor border-2 rounded-md p-4 border-x-columnBackgroundColor hover:bg-mainBackgroundColor hover:text-rose-500 active:bg-black"
+          onClick={() => {
+            handleAddTaskClick(column.id);
+          }}
+        >
+          <PlusIcons /> Add task
+        </button>
+      )}
     </div>
   );
 }
