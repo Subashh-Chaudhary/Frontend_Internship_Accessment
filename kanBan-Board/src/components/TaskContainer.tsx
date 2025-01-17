@@ -15,10 +15,10 @@ const TaskContainer = () => {
       
           return (
             <Droppable droppableId={column.id} key={column.id}>
-              {(provided) => (
+              {(provided, snapshot) => (
                 <div
+                  ref = {provided.innerRef}
                   {...provided.droppableProps}
-                  ref={provided.innerRef}
                   className="column-container"
                 >
                   <h2 className="text-2xl font-bold text-gray-800 mb-4">
