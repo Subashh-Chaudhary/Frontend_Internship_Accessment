@@ -50,7 +50,7 @@
     <li>Start the development server:
       <pre><code>npm run dev</code></pre>
     </li>
-    <li>Open your browser and visit <a href="http://localhost:3000" target="_blank">http://localhost:5173/</a></li>
+    <li>Open your browser and visit <a href="http://localhost:5173" target="_blank">http://localhost:5173/</a></li>
   </ol>
 
   <hr>

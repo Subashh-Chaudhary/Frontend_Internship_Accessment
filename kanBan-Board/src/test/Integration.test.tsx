@@ -1,5 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import KanbaBoard from "../components/KanbaBoard";
+import "@testing-library/jest-dom"; // This adds custom matchers like toBeInTheDocument
 
 describe("KanbanBoard integration tests", () => {
   it("allows the user to add a new column", () => {

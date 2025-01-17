@@ -1,13 +1,12 @@
-import "@testing-library/jest-dom"; // No need for '/extend-expect'
+import type { Config } from "jest";
 
-/** @type {import('jest').Config} */
-const config = {
+const config: Config = {
   preset: "ts-jest",
   testEnvironment: "jsdom",
   moduleNameMapper: {
     "\\.(css|scss|svg)$": "identity-obj-proxy", // Mock CSS/SCSS/SVG imports
   },
-  setupFilesAfterEnv: ["@testing-library/jest-dom"], // Just import the module itself
+  setupFilesAfterEnv: ["@testing-library/jest-dom"], // Ensure Jest DOM matchers are set up
 };
 
-module.exports = config;
+export default config;

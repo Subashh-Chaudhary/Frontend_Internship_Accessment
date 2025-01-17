@@ -210,15 +210,15 @@ function KanbaBoard() {
   }, [columns, tasks]);
 
   return (
-    <div className="m-auto flex min-h-screen w-full items-center overflow-x-auto overflow-y-hidden px-[40px]">
+    <div className="m-auto flex min-h-screen w-full items-center px-3 md:px-[40px] mt-8">
       <DndContext
         sensors={sensors}
         onDragStart={onDragStart}
         onDragEnd={onDragEnd}
         onDragOver={onDragOver}
       >
-        <div className="w-full m-auto flex gap-4 flex-wrap justify-center items-center">
-          <div className="flex gap-4">
+        <div className="w-full m-auto flex gap-6 md:gap-8  justify-center items-center flex-col ">
+          <div className="flex gap-2 md:gap-6 flex-wrap justify-between">
             <SortableContext items={columnsId}>
               {columns.map((column) => (
                 <ColumnContainer

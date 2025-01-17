@@ -76,7 +76,7 @@ function ColumnContainer(props: Props) {
     <div
       ref={setNodeRef}
       style={style}
-      className="bg-columnBackgroundColor w-[300px] h-[400px] max-h-[400px] rounded-md flex flex-col"
+      className="bg-columnBackgroundColor w-[170px] md:w-[300px] h-[300px] md:h-[400px] max-h-[400px] rounded-md flex flex-col"
     >
       <div
         {...attributes}

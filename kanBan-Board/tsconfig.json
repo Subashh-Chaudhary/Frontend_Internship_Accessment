@@ -6,6 +6,16 @@
   ],
   "compilerOptions": {
     "strict": true,
-    "types": ["jest", "node"]
-  }
+    "types": ["jest", "node"],
+    "target": "ESNext",
+    "module": "ESNext",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "jsx": "react-jsx", // Enable JSX with React's new JSX transform
+    "esModuleInterop": true, // Add this for better module interoperability
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "Node",
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true
+  },
 }
