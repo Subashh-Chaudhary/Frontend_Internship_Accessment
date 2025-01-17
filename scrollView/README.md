@@ -10,7 +10,16 @@
       <li><strong>Horizontal and Vertical Scrolling:</strong> Support for both horizontal and vertical scrolling.</li>
   </ul>
 
+  <h2>Technologies Used</h2>
+    <ul>
+        <li>HTML</li>
+        <li>CSS</li>
+        <li>JavaScript</li>
+    </ul>
+
   <p>To run the project locally, simply clone and open the <code>index.html</code> file in your web browser.</p>
   <hr />
+
+  <h2><a href="https://blog-slider.netlify.app/">Live Demo</a></h2>
   
   <p>This project was developed by <strong>Subash Tharu</strong>. For any inquiries, feel free to reach out at <a href="subashtharu.info@gmail.com">subashtharu.info@gmail.com</a>  <a href="https://www.linkedin.com/in/developer-subash/">LinkedIn</a>.</p>

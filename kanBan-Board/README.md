@@ -1,13 +1,13 @@
   <h1>Kanban Board</h1>
 
   <h2>Overview</h2>
-  <p>This Kanban board project is a simple task management system built with React.js, TypeScript, Jest, @dnd-kit/core abd @dnd-kit/sortable. It allows users to create, manage, and organize tasks across different columns, such as "To Do", "In Progress", and "Done". The data is stored locally using <code>localStorage</code> and can be managed with features like undo and redo actions.</p>
+  <p>This Kanban board project is a simple task management system built with React.js, TypeScript, Jest, @dnd-kit/core abd @dnd-kit/sortable. It allows users to create, manage, and organize tasks across different columns, such as "To Do", "In Progress", and "Done". The data is stored locally using <code>localStorage</code></p>
 
   ![Image](https://github.com/user-attachments/assets/a3b696b6-8ac3-41d1-a195-c76c43da8b93)
 
   <hr>
 
-  <h2>Tech Stack & Rationale</h2>
+  <h2>Tech Stack</h2>
 
   <h3>Frontend</h3>
   <ul>
@@ -118,6 +118,9 @@
   </ol>
 
   <hr>
+
+  <h2><a href="https://knban-dnd.netlify.app/">Live Demo</a></h2>
   
 <h2>Developer Details</h2>
 <p>This project was developed by <strong>Subash Tharu</strong>. For any inquiries, feel free to reach out at <a href="subashtharu.info@gmail.com">subashtharu.info@gmail.com</a>  <a href="https://www.linkedin.com/in/developer-subash/">LinkedIn</a>.</p>
+
