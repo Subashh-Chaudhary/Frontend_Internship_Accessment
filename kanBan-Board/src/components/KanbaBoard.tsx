@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import PlusIcons from "../icons/PlusIcons";
 import { Id, Column, Task } from "../types";
 import ColumnContainer from "./ColumnContainer";
@@ -17,13 +17,45 @@ import { createPortal } from "react-dom";
 import TaskCart from "./TaskCart";
 
 function KanbaBoard() {
-  const [columns, setColumns] = useState<Column[]>([]);
+  // Default columns and tasks
+  const defaultColumns: Column[] = [
+    { id: 1, title: "To Do" },
+    { id: 2, title: "In Progress" },
+    { id: 3, title: "Done" },
+  ];
+
+  // Helper function to initialize localStorage with defaults
+  const initializeLocalStorage = () => {
+    const storedColumns = localStorage.getItem("columns");
+
+    // Check if storedColumns is missing or an empty array
+    if (!storedColumns || JSON.parse(storedColumns).length === 0) {
+      localStorage.setItem("columns", JSON.stringify(defaultColumns));
+    }
+
+    
+  };
+
+  // Call this function before initializing state
+  useEffect(() => {
+    initializeLocalStorage();
+  }, []);
+
+  // Initialize state from local storage or fallback to an empty array
+  const [columns, setColumns] = useState<Column[]>(() => {
+    const storedColumns = localStorage.getItem("columns");
+    return storedColumns ? JSON.parse(storedColumns) : defaultColumns;
+  });
+
+  const [tasks, setTasks] = useState<Task[]>(() => {
+    const storedTasks = localStorage.getItem("tasks");
+    return storedTasks ? JSON.parse(storedTasks) : [];
+  });
   const [isAdding, setIsAdding] = useState(false);
   const [newColumnTitle, setNewColumnTitle] = useState("");
   const [activeColumn, setActiveColumn] = useState<Column | null>(null);
   const [activeTask, setActiveTask] = useState<Task | null>(null);
   const columnsId = useMemo(() => columns.map((col) => col.id), [columns]);
-  const [tasks, setTasks] = useState<Task[]>([]);
   const [activeTaskInput, setActiveTaskInput] = useState<Id | null>(null);
   const [newTaskContent, setNewTaskContent] = useState("");
 
@@ -61,14 +93,6 @@ function KanbaBoard() {
       },
     })
   );
-  // const createNewColumn = () => {
-  //   const columnToAdd: Column = {
-  //     id: generateId(),
-  //     title: `Task ${columns.length + 1}`,
-  //   };
-
-  //   setColumns([...columns, columnToAdd]);
-  // };
 
   const deleteColumn = (id: Id) => {
     const filteredColumns = columns.filter((column) => column.id !== id);
@@ -95,7 +119,10 @@ function KanbaBoard() {
     setNewTaskContent(""); // Reset task input
   };
 
-  const handleKeyPresss = (e: React.KeyboardEvent<HTMLInputElement>, columnId: Id) => {
+  const handleKeyPresss = (
+    e: React.KeyboardEvent<HTMLInputElement>,
+    columnId: Id
+  ) => {
     if (e.key === "Enter") {
       createTask(columnId); // Create task on Enter key press
     }
@@ -105,15 +132,6 @@ function KanbaBoard() {
     const fiteredTask = tasks.filter((task) => task.id !== id);
     setTasks(fiteredTask);
   };
-
-  // const createTask = (columnId: Id) => {
-  //   const newTask: Task = {
-  //     id: generateId(),
-  //     columnId,
-  //     content: `Task ${tasks.length + 1}`,
-  //   };
-  //   setTasks([...tasks, newTask]);
-  // };
 
   const generateId = () => {
     return Math.floor(Math.random() * 10001);
@@ -184,6 +202,13 @@ function KanbaBoard() {
       });
     }
   };
+
+  // Save columns and tasks to local storage whenever they change
+  useEffect(() => {
+    localStorage.setItem("columns", JSON.stringify(columns));
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }, [columns, tasks]);
+
   return (
     <div className="m-auto flex min-h-screen w-full items-center overflow-x-auto overflow-y-hidden px-[40px]">
       <DndContext

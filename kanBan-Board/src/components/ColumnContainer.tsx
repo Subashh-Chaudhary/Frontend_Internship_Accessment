@@ -71,6 +71,8 @@ function ColumnContainer(props: Props) {
       ></div>
     );
   }
+
+  console.log(tasks);
   return (
     <div
       ref={setNodeRef}
@@ -84,7 +86,7 @@ function ColumnContainer(props: Props) {
       >
         <div className="flex gap-2">
           <div className="flex justify-center items-center bg-columnBackgroundColor px-3 py-1 text-sm rounded-full">
-            0
+            {column.id}
           </div>
           {column.title}
         </div>
@@ -113,7 +115,7 @@ function ColumnContainer(props: Props) {
             value={newTaskContent}
             onChange={(e) => setNewTaskContent(e.target.value)}
             onKeyPress={(e) => handleKeyPresss(e, column.id)}
-            placeholder="Enter task name"
+            placeholder="Enter task title"
             className="task-input"
           />
           <button
